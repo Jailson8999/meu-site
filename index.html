@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casa das Coxinhas - Ecossistema Ultra Pro v5.0</title>
+  
+  <!-- SUPABASE JS CLIENT - ESSENCIAL -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Casa%20das%20Coxinhas%22,%22short_name%22:%22CoxinhasPro%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%230b0b0b%22,%22theme_color%22:%22%23c9182b%22}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #0b0b0b;
+      --card-bg: #141414;
+      --primary-red: #c9182b;
+      --accent-gold: #dfb15b;
+      --text-color: #ffffff;
+      --text-muted: #a0a0a0;
+      --border: rgba(255, 255, 255, 0.05);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 30px;
+    }
+
+    * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
+
+    header {
+      display: flex; justify-content: space-between; align-items: center; padding: 14px 6%;
+      background-color: rgba(11, 11, 11, 0.9); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+    }
+
+    .logo { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
+    .logo span { color: var(--accent-gold); }
+    .header-botoes { display: flex; align-items: center; gap: 10px; }
+
+    .btn-menu-usuario {
+      background: #1c1c22; border: 1px solid var(--border); color: #fff; padding: 8px 14px;
+      border-radius: var(--radius-lg); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
+    }
+
+    .carrinho-icone {
+      font-size: 13px; cursor: pointer; background: #1c1c22; padding: 8px 14px;
+      border-radius: var(--radius-lg); border: 1px solid var(--accent-gold); display: flex; align-items: center; gap: 6px; font-weight: 600;
+    }
+    #contador-carrinho { background: var(--primary-red); color: #fff; padding: 1px 6px; border-radius: 8px; font-size: 11px; font-weight: 800; }
+
+    .container-busca { padding: 15px 6% 0 6%; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+    .wrapper-busca { position: relative; width: 100%; max-width: 500px; }
+    .input-busca-principal { width: 100%; padding: 12px 40px 12px 42px; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); color: #fff; font-size: 13px; outline: none; }
+    .input-busca-principal:focus { border-color: var(--accent-gold); }
+    .icone-busca { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; }
+    .btn-voz { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; }
+
+    .banner-gamificacao { background: linear-gradient(135deg, #1e1404, #141414); border: 1px solid rgba(223,177,91,0.15); border-radius: var(--radius-md); padding: 15px; width: 100%; max-width: 500px; margin: 10px auto 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .status-badge { background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+    #quadro-anuncios-admin { background: linear-gradient(90deg, #c9182b, #8a101d); padding: 8px 20px; text-align: center; font-size: 12px; font-weight: 700; color: #fff; display: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+    .push-notificacao-box { position: fixed; top: 20px; right: 20px; background: #1a1a24; border-left: 5px solid var(--accent-gold); border-radius: var(--radius-sm); padding: 12px 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 9999; display: none; max-width: 320px; font-size: 12px; animation: slideInRight 0.3s forwards; }
+    @keyframes slideInRight { from { transform: translateX(120%); } to { transform: translateX(0); } }
+
+    .banner {
+      text-align: center; padding: 50px 20px;
+      background: linear-gradient(rgba(11, 11, 11, 0.85), rgba(11, 11, 11, 1)), url('https://images.pexels.com/photos/13938550/pexels-photo-13938550.jpeg?auto=compress&cs=tinysrgb&w=1200') no-repeat center/cover;
+    }
+    .banner h1 { font-size: 24px; margin-bottom: 8px; color: #fff; font-weight: 800;}
+    .banner p { color: var(--text-muted); font-size: 14px; margin: 0;}
+
+    .categorias-ifood-barra {
+      display: flex; gap: 8px; padding: 12px 6%; background: var(--bg-color);
+      overflow-x: auto; scroll-behavior: smooth; position: sticky; top: 57px; z-index: 90; border-bottom: 1px solid var(--border);
+    }
+    .categorias-ifood-barra::-webkit-scrollbar { display: none; }
+    .cat-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-color); padding: 8px 16px; border-radius: var(--radius-lg); font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; text-decoration: none; }
+
+    .container { padding: 10px 6%; }
+    .secao-titulo { font-size: 18px; font-weight: 700; color: #fff; margin: 30px 0 15px 0; scroll-margin-top: 120px; border-left: 4px solid var(--accent-gold); padding-left: 10px;}
+
+    .produtos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 14px; }
+    .produto-card {
+      background-color: var(--card-bg); border-radius: var(--radius-md); overflow: hidden;
+      border: 1px solid var(--border); display: flex; flex-direction: row; padding: 14px; position: relative; cursor: pointer; justify-content: space-between; height: 145px; box-sizing: border-box;
+    }
+    .produto-card.esgotado { opacity: 0.4; pointer-events: none; }
+    .badge-esgotado { position: absolute; top: 40%; left: 30%; background: #000; color: #fff; border: 1px solid var(--primary-red); padding: 5px 15px; font-weight: 800; border-radius: var(--radius-sm); font-size: 12px; z-index: 50; transform: rotate(-5deg); }
+
+    .produto-info { display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; padding-right: 12px; max-width: calc(100% - 110px); }
+    .produto-card h3 { margin: 0 0 4px 0; font-size: 15px; color: #fff; font-weight: 600; line-height: 1.3; }
+    .selo-produto { display: inline-block; font-size: 9px; padding: 1px 4px; border-radius: 3px; font-weight: 700; margin-right: 4px; vertical-align: middle; }
+    
+    .descricao-curta { color: var(--text-muted); font-size: 12px; line-height: 1.4; margin-bottom: 0; height: 34px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .preco-linha { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+    .preco { font-size: 15px; font-weight: 700; color: var(--accent-gold); }
+
+    .btn-favorito-coracao { position: absolute; top: 10px; right: 120px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; z-index: 10; }
+    .btn-favorito-coracao.favoritado { color: #ff3b30; background: rgba(255, 59, 48, 0.1); border-color: rgba(255, 59, 48, 0.3); }
+
+    .produto-img-container { width: 95px; height: 95px; border-radius: var(--radius-sm); flex-shrink: 0; align-self: center; position: relative; display: flex; flex-direction: column; align-items: center; }
+    .produto-img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-sm); }
+
+    .btn-adicionar {
+      position: absolute; bottom: -8px; background-color: #ffffff; color: var(--primary-red);
+      border: 1px solid rgba(201, 24, 43, 0.3); padding: 6px 0; width: 85%; text-align: center; border-radius: var(--radius-lg); font-size: 11px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.4); white-space: nowrap;
+    }
+
+    .toast-notificacao { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background-color: #ffffff; color: #000000; padding: 10px 24px; border-radius: var(--radius-lg); font-weight: 700; font-size: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.4); z-index: 6000; transition: bottom 0.3s ease; display: flex; align-items: center; gap: 8px; }
+    .toast-notificacao.mostrar { bottom: 20px; }
+
+    .menu-lateral-esquerdo { position: fixed; top: 0; left: -450px; width: 100%; max-width: 390px; height: 100%; background-color: var(--card-bg); border-right: 1px solid var(--border); transition: left 0.3s ease; z-index: 2500; padding: 20px; display: flex; flex-direction: column; box-sizing: border-box; box-shadow: 20px 0 50px rgba(0,0,0,0.8); }
+    .menu-lateral-esquerdo.aberto { left: 0; }
+    .menu-user-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 15px;}
+    .menu-user-header h3 { font-size: 16px; margin: 0; font-weight: 800; color: var(--accent-gold); }
+    .menu-user-header button { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; }
+
+    .menu-abas-navegacao { display: flex; gap: 5px; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px; overflow-x: auto; }
+    .menu-abas-navegacao::-webkit-scrollbar { display: none; }
+    .aba-btn { background: none; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; border-radius: var(--radius-sm); }
+    .aba-btn.ativa { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); }
+
+    .aba-conteudo-painel { flex-grow: 1; overflow-y: auto; display: none; }
+    .aba-conteudo-painel.ativa { display: block; }
+
+    .box-interno { background: var(--bg-color); border: 1px solid var(--border); padding: 14px; border-radius: var(--radius-md); margin-bottom: 12px; }
+    .box-interno h4 { margin: 0 0 8px 0; font-size: 13px; color: #fff; }
+    .input-premium { width: 100%; padding: 10px; background: #1a1a1a; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 12px; margin-bottom: 8px; outline: none; }
+    .btn-premium-bloco { width: 100%; padding: 10px; background: var(--accent-gold); color: #000; border: none; border-radius: var(--radius-lg); font-size: 12px; font-weight: 700; cursor: pointer; margin-top: 4px; text-align: center; }
+    
+    .barra-progresso-container { background: #222; border-radius: var(--radius-lg); height: 12px; overflow: hidden; margin-top: 6px; border: 1px solid var(--border); }
+    .barra-progresso-preenchimento { background: linear-gradient(90deg, var(--accent-gold), #ffc107); height: 100%; width: 0%; transition: width 0.4s ease; }
+
+    .tracker-container { margin-top: 15px; background: #1a1a24; border: 1px solid rgba(223,177,91,0.2); padding: 12px; border-radius: var(--radius-md); }
+    .tracker-etapas { display: flex; justify-content: space-between; position: relative; margin-top: 10px; }
+    .tracker-etapas::before { content: ''; position: absolute; top: 10px; left: 10px; right: 10px; height: 2px; background: #333; z-index: 1; }
+    .etapa-dot { width: 20px; height: 20px; border-radius: 50%; background: #333; z-index: 2; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #fff; }
+    .etapa-dot.ativo { background: #28a745; }
+
+    .carrinho-lateral { position: fixed; top: 0; right: -450px; width: 100%; max-width: 390px; height: 100%; background-color: var(--card-bg); border-left: 1px solid var(--border); transition: right 0.3s ease; z-index: 2500; padding: 20px; display: flex; flex-direction: column; box-sizing: border-box; box-shadow: -20px 0 50px rgba(0,0,0,0.8); }
+    .carrinho-lateral.aberto { right: 0; }
+    .carrinho-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px;}
+    .carrinho-header h3 { font-size: 16px; font-weight: 700; margin: 0; }
+    .carrinho-header button { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer;}
+
+    #itens-carrinho { flex-grow: 1; overflow-y: auto; max-height: 22vh; margin-bottom: 10px; }
+    .item-no-carrinho { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;}
+    .item-carrinho-esquerda { display: flex; flex-direction: column; gap: 2px; }
+    .controle-quantidade { display: flex; align-items: center; background: var(--bg-color); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .controle-quantidade button { background: none; border: none; color: #fff; padding: 3px 8px; font-size: 12px; font-weight: bold; cursor: pointer; }
+    .controle-quantidade span { padding: 0 2px; font-weight: bold; font-size: 11px; min-width: 14px; text-align: center; }
+
+    .formulario-cliente { border-top: 1px solid var(--border); padding-top: 12px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; max-height: 48vh; padding-bottom: 8px; }
+    .formulario-cliente h4 { margin: 0; color: var(--accent-gold); font-size: 13px; font-weight: 600; }
+    .formulario-cliente label { font-size: 11px; color: var(--text-muted); }
+    .formulario-cliente input, .formulario-cliente select, .formulario-cliente textarea { width: 100%; padding: 8px 10px; background-color: var(--bg-color); border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 12px; outline: none; }
+
+    .carrinho-footer { border-top: 1px solid var(--border); padding-top: 12px; margin-top: auto; }
+    .total-linha { font-size: 12px; display: flex; justify-content: space-between; margin-bottom: 4px; color: var(--text-muted); }
+    .total-linha.geral { font-size: 15px; font-weight: bold; margin-top: 8px; color: #fff; border-top: 1px dashed var(--border); padding-top: 8px; }
+    .btn-finalizar { background-color: #28a745; color: white; border: none; width: 100%; padding: 12px; font-size: 13px; font-weight: bold; border-radius: var(--radius-lg); cursor: pointer;}
+
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(4, 4, 6, 0.85); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 4000; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+    .modal-overlay.ativo { opacity: 1; pointer-events: auto; }
+    .modal-conteudo { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); width: 92%; max-width: 420px; padding: 20px; position: relative; max-height: 85vh; overflow-y: auto; }
+    .modal-fechar { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.05); border: none; color: #fff; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+    .admin-modal-fullscreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(11, 11, 11, 0.98); backdrop-filter: blur(12px); z-index: 5000; display: none; overflow-y: auto; padding: 40px 6%; box-sizing: border-box; }
+    .admin-modal-fullscreen.ativo { display: block; }
+    .admin-container-premium { max-width: 1200px; margin: 0 auto; }
+    .admin-topbar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 30px; }
+    .btn-fechar-fullscreen { background: var(--primary-red); border: none; color: #fff; padding: 10px 20px; border-radius: var(--radius-lg); font-weight: 700; cursor: pointer; }
+    
+    .admin-grid-layout-master { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px; margin-bottom: 30px; }
+    .admin-modulo-bloco { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .admin-modulo-bloco h3 { margin: 0 0 4px 0; font-size: 14px; font-weight: 700; color: var(--accent-gold); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+
+    .tabela-dashboard { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 11px; }
+    .tabela-dashboard th, .tabela-dashboard td { border: 1px solid var(--border); padding: 6px; text-align: left; }
+    .tabela-dashboard th { background: #1a1a1a; color: var(--accent-gold); }
+
+    .sucesso-conteudo { background-color: var(--card-bg); border: 1px solid #28a745; border-radius: var(--radius-md); width: 92%; max-width: 400px; padding: 25px; text-align: center; }
+    .sucesso-recibo { background-color: var(--bg-color); border: 1px solid var(--border); border-radius: 6px; padding: 12px; text-align: left; font-size: 12px; line-height: 1.5; margin-bottom: 15px; max-height: 180px; overflow-y: auto; }
+    
+    .badge-alerta { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+    .badge-alerta.perigo { background: rgba(201,24,43,0.15); color: #ff3b30; border: 1px solid rgba(201,24,43,0.3); }
+    .badge-alerta.aviso { background: rgba(223,177,91,0.15); color: var(--accent-gold); border: 1px solid rgba(223,177,91,0.3); }
+
+    .btn-admin-acesso, .btn-entregador-acesso { background: rgba(255,255,255,0.02); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: var(--radius-lg); font-size: 11px; cursor: pointer; margin-top: 5px; }
+    .btn-admin-acesso:hover, .btn-entregador-acesso:hover { border-color: var(--accent-gold); color: #fff; }
+
+    footer { padding: 30px 6%; background: #070707; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; text-align: left; margin-bottom: 20px; }
+    .footer-bloco h4 { margin: 0 0 10px 0; color: #fff; }
+    .footer-bloco p { margin: 4px 0; }
+
+    .loading { display: inline-block; width: 12px; height: 12px; background: var(--accent-gold); border-radius: 50%; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+  </style>
+</head>
+<body>
+
+<div id="quadro-anuncios-admin">📢 Sejam bem-vindos à Casa das Coxinhas Premium!</div>
+
+<div id="box-push-alerta" class="push-notificacao-box">
+  <strong style="color:var(--accent-gold); display:block; margin-bottom:2px;">🔔 Notificação Push</strong>
+  <span id="txt-push-mensagem">Novo status do pedido atualizado.</span>
+</div>
+
+<div id="toast-confirmacao" class="toast-notificacao">✅ Item adicionado à sacola</div>
+
+<header>
+  <button class="btn-menu-usuario" onclick="toggleMenuUsuario()">
+    👤 <span id="txt-header-usuario">Menu</span>
+  </button>
+  
+  <div class="logo">Casa das<span>Coxinhas</span></div>
+  
+  <div class="header-botoes">
+    <div class="carrinho-icone" onclick="toggleCarrinho()">
+      🛒 Sacola <span id="contador-carrinho">0</span>
+    </div>
+  </div>
+</header>
+
+<div class="container-busca">
+  <div class="wrapper-busca">
+    <span class="icone-busca">🔍</span>
+    <input type="text" id="busca-produtos" class="input-busca-principal" placeholder="Buscar no cardápio...">
+  </div>
+
+  <div class="banner-gamificacao">
+    <div style="font-size:12px;">
+      <span class="status-badge">Conectado ao Supabase</span>
+      <div style="margin-top:4px; font-weight:700;" id="txt-missao-nome">🚀 Sistema Online</div>
+      <div style="font-size:11px; color:var(--text-muted);" id="txt-missao-progresso">Status: Pronto</div>
+    </div>
+    <div style="text-align:right; font-weight:800; color:var(--accent-gold); font-size:13px;" id="txt-user-pontos">✨ 0 pts</div>
+  </div>
+</div>
+
+<nav class="categorias-ifood-barra">
+  <a href="#titulo-mais-vendidos" class="cat-btn">🔥 Mais Vendidos</a>
+  <a href="#titulo-salgados" class="cat-btn">Coxinhas & Salgados</a>
+  <a href="#titulo-combos" class="cat-btn">Combos & Centos</a>
+  <a href="#titulo-bebidas" class="cat-btn">Bebidas & Sucos</a>
+</nav>
+
+<section class="banner">
+  <h1>O verdadeiro sabor do salgado artesanal com qualidade premium.</h1>
+  <p>Monte o seu pedido e finalize direto pelo WhatsApp da Loja!</p>
+</section>
+
+<main class="container">
+  <h2 class="secao-titulo" id="titulo-mais-vendidos">🔥 Os Mais Vendidos da Semana</h2>
+  <div class="produtos-grid" id="grid-mais-vendidos"><div class="loading" style="margin: 20px auto;"></div></div>
+
+  <h2 class="secao-titulo" id="titulo-salgados">Coxinhas & Salgados Individuais</h2>
+  <div class="produtos-grid" id="grid-salgados"><div class="loading" style="margin: 20px auto;"></div></div>
+
+  <h2 class="secao-titulo" id="titulo-combos">Combos & Centos Festivos</h2>
+  <div class="produtos-grid" id="grid-combos"><div class="loading" style="margin: 20px auto;"></div></div>
+
+  <h2 class="secao-titulo" id="titulo-bebidas">Bebidas & Sucos Gelados</h2>
+  <div class="produtos-grid" id="grid-bebidas"><div class="loading" style="margin: 20px auto;"></div></div>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-bloco">
+      <h4>📍 Nosso Endereço</h4>
+      <p>Casa das Coxinhas Premium S/A</p>
+      <p>Avenida Nossa Senhora de Fátima, N° 1420 - Teresina - PI</p>
+    </div>
+    <div class="footer-bloco">
+      <h4>🕒 Horário Corporativo</h4>
+      <p>Segunda a Sábado: 15:00h às 22:00h</p>
+    </div>
+  </div>
+  <div class="footer-linha-final">
+    &copy; 2026 Casa das Coxinhas — Sistema Unificado + Supabase.
+    <br>
+    <button class="btn-admin-acesso" onclick="abrirModalLoginAdmin()">⚙️ Gestão Administrativa</button>
+  </div>
+</footer>
+
+<aside id="menu-lateral-esquerdo" class="menu-lateral-esquerdo">
+  <div class="menu-user-header">
+    <h3>Central do Cliente Pro</h3>
+    <button onclick="toggleMenuUsuario()">×</button>
+  </div>
+
+  <div class="menu-abas-navegacao">
+    <button class="aba-btn ativa" onclick="mudarAbaMenu('aba-conta', this)">👤 Perfil</button>
+    <button class="aba-btn" onclick="mudarAbaMenu('aba-cupons', this)">🎟️ Meus Cupons</button>
+  </div>
+
+  <div id="aba-conta" class="aba-conteudo-painel ativa">
+    <div id="painel-deslogado">
+      <div class="box-interno">
+        <h4>Acessar Conta</h4>
+        <input type="email" id="login-email" class="input-premium" placeholder="Seu e-mail">
+        <input type="password" id="login-senha" class="input-premium" placeholder="Sua senha">
+        <button class="btn-premium-bloco" onclick="realizarLoginCliente()">Entrar</button>
+      </div>
+    </div>
+    
+    <div id="painel-logado" style="display:none;">
+      <div class="box-interno" style="text-align: center;">
+        <h3 id="txt-perfil-nome">Olá!</h3>
+        <button class="btn-premium-bloco" style="background:#c9182b; color:#fff; max-width:80px; padding:4px; font-size:10px; margin:10px auto 0 auto;" onclick="logoutCliente()">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="aba-cupons" class="aba-conteudo-painel">
+    <div id="container-cupons-cliente-view"></div>
+  </div>
+</aside>
+
+<aside id="carrinho-lateral" class="carrinho-lateral">
+  <div class="carrinho-header">
+    <h3>Sua Sacola</h3>
+    <button onclick="toggleCarrinho()">×</button>
+  </div>
+
+  <div id="itens-carrinho"></div>
+
+  <div class="formulario-cliente">
+    <h4>Dados de Entrega & Configuração</h4>
+    
+    <label>Seu Nome:</label>
+    <input type="text" id="cliente-nome" placeholder="Digite seu nome completo">
+
+    <label>Seu E-mail:</label>
+    <input type="email" id="cliente-email" placeholder="seu@email.com">
+
+    <label>Selecione a Região de Entrega:</label>
+    <select id="cliente-bairro" onchange="atualizarInterfaceCarrinho()">
+      <option value="Centro" data-taxa="4.00">Centro</option>
+      <option value="Zona Leste" data-taxa="5.00">Zona Leste</option>
+      <option value="Zona Norte" data-taxa="7.00">Zona Norte</option>
+      <option value="Zona Sul" data-taxa="8.00">Zona Sul</option>
+      <option value="Retirada Balcão" data-taxa="0.00">Retirar no Balcão</option>
+    </select>
+
+    <label>Endereço / Rua:</label>
+    <input type="text" id="cliente-rua" placeholder="Ex: Av. Frei Serafim">
+
+    <label>Número e Complemento:</label>
+    <input type="text" id="cliente-numero" placeholder="Ex: Casa 45">
+
+    <label>Forma de Pagamento:</label>
+    <select id="cliente-pagamento">
+      <option value="Pix">Pix</option>
+      <option value="Maquininha Motoboy">Levar Maquininha de Cartão</option>
+      <option value="Dinheiro">Dinheiro</option>
+    </select>
+
+    <label>Observações:</label>
+    <textarea id="cliente-observacao" rows="2" placeholder="Ex: Tirar cebola..."></textarea>
+  </div>
+
+  <div class="carrinho-footer">
+    <div class="total-linha">Subtotal: <span id="subtotal-preco">R$ 0,00</span></div>
+    <div class="total-linha">Taxa de Entrega: <span id="taxa-preco">R$ 0,00</span></div>
+    <div class="total-linha" id="linha-desconto-view" style="display:none; color:#28a745;">Desconto Cupom: <span id="desconto-preco">-R$ 0,00</span></div>
+    <div class="total-linha geral">Total Geral: <span id="total-preco">R$ 0,00</span></div>
+    <button class="btn-finalizar" onclick="processarPedido()">Finalizar e Confirmar</button>
+  </div>
+</aside>
+
+<div id="modal-produto" class="modal-overlay" onclick="fecharModalExterno(event)">
+  <div class="modal-conteudo">
+    <button class="modal-fechar" onclick="fecharModal()">×</button>
+    <h3 id="modal-visualizar-titulo"></h3>
+    <p id="modal-visualizar-descricao"></p>
+    <div style="font-size: 20px; font-weight: bold; color: var(--accent-gold); margin-bottom: 15px;" id="modal-visualizar-preco"></div>
+    <button class="btn-premium-bloco" onclick="adicionarItemComAdicionaisDoModal()" style="background:#fff; color:#000;">Adicionar Item</button>
+  </div>
+</div>
+
+<div id="modal-sucesso" class="modal-overlay">
+  <div class="sucesso-conteudo">
+    <span style="font-size:30px;">🎉</span>
+    <h3>Pedido Processado!</h3>
+    <div class="sucesso-recibo" id="recibo-conteudo"></div>
+    <button class="btn-premium-bloco" style="background:#28a745; color:#fff;" onclick="fecharModalSucesso()">Enviar para o WhatsApp</button>
+  </div>
+</div>
+
+<div id="modal-login-admin" class="modal-overlay">
+  <div class="modal-conteudo" style="text-align:center;">
+    <button class="modal-fechar" onclick="fecharModalLoginAdmin()">×</button>
+    <h3>Acesso Corporativo</h3>
+    <input type="password" id="input-senha-admin" class="input-premium" placeholder="Senha do Administrador" style="text-align:center;">
+    <button class="btn-premium-bloco" onclick="autenticarDono()">Acessar Gestão</button>
+  </div>
+</div>
+
+<div id="admin-fullscreen" class="admin-modal-fullscreen">
+  <div class="admin-container-premium">
+    <div class="admin-topbar">
+      <h2>📊 Sistema Unificado ERP <span>• Casa das Coxinhas Pro v5.0</span></h2>
+      <button class="btn-fechar-fullscreen" onclick="fecharAdminPainel()">Fechar Dashboard</button>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:20px;">
+      <div class="box-interno" style="background:#112211; border-color:#28a745;">
+        <h4 style="color:#28a745; margin:0;">💰 Faturamento Líquido Real</h4>
+        <div style="font-size:22px; font-weight:800; margin-top:4px;" id="txt-faturamento-total">R$ 0,00</div>
+      </div>
+      <div class="box-interno" style="background:#1e1a11; border-color:var(--accent-gold);">
+        <h4>📈 Métricas de Desempenho</h4>
+        <div style="font-size:11px; line-height:1.5;">
+          • Ticket Médio: <strong id="metric-ticket-medio">R$ 0,00</strong><br>
+          • Pedidos Concluídos: <strong id="metric-total-pedidos">0</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-modulo-bloco">
+      <h3>🎫 Cupons Gerenciador</h3>
+      <input type="text" id="adm-cupom-nome" class="input-premium" placeholder="Nome do Cupom (Ex: VIP20)">
+      <input type="number" id="adm-cupom-porcentagem" class="input-premium" placeholder="Desconto em %">
+      <button class="btn-premium-bloco" onclick="criarNovoCupomAdmin()">Criar Cupom</button>
+      <div style="max-height:100px; overflow-y:auto; font-size:11px; margin-top:5px;" id="adm-lista-cupons-render"></div>
+    </div>
+
+    <div style="text-align:right; margin-top:20px;">
+      <button onclick="alert('Dashboard Sincronizado!')" style="background:#28a745; color:#fff; border:none; padding:10px 24px; border-radius:6px; font-weight:bold; cursor:pointer;">✅ Sincronizar</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS SUPABASE - ESSENCIAL -->
+<script>
+  // ========================================
+  // CONFIGURAÇÃO SUPABASE INLINE
+  // ========================================
+  const SUPABASE_URL = 'https://nhwrnhooneftzkvyrgf.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5od3JuaG9vbmVmdHprenZ5cmdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMDIxNzcsImV4cCI6MjA5NjY3ODE3N30.w7obC9OSPBmLAOREkAqemly3uEfeGMHXmF8bpDznfZY';
+
+  const { createClient } = supabase;
+  const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  console.log('✅ Supabase Client inicializado!');
+
+  // ========================================
+  // VARIÁVEIS GLOBAIS
+  // ========================================
+  let carrinho = [];
+  let cupomAtivo = null;
+  let whatsappLoja = "5586999999999";
+  const SENHA_DONO = "1234";
+  let clienteLogado = null;
+  let produtoSelecionadoModalId = null;
+
+  // ========================================
+  // INICIALIZAÇÃO
+  // ========================================
+  window.onload = async function() {
+    console.log('🚀 Iniciando aplicação...');
+    await carregarProdutosDoSupabase();
+    await atualizarDashboardAdmin();
+  };
+
+  // ========================================
+  // CARREGAR PRODUTOS DO SUPABASE
+  // ========================================
+  async function carregarProdutosDoSupabase() {
+    try {
+      const { data: salgados, error: e1 } = await supabaseClient
+        .from('tabela_de_produtos')
+        .select('*')
+        .eq('categoria', 'Salgados');
+      
+      const { data: combos, error: e2 } = await supabaseClient
+        .from('tabela_de_produtos')
+        .select('*')
+        .eq('categoria', 'Combos');
+      
+      const { data: bebidas, error: e3 } = await supabaseClient
+        .from('tabela_de_produtos')
+        .select('*')
+        .eq('categoria', 'Bebidas');
+
+      if(e1 || e2 || e3) throw new Error('Erro ao carregar');
+
+      console.log('✅ Salgados:', salgados?.length || 0);
+      console.log('✅ Combos:', combos?.length || 0);
+      console.log('✅ Bebidas:', bebidas?.length || 0);
+
+      renderizarSecao(salgados || [], "grid-salgados");
+      renderizarSecao(combos || [], "grid-combos");
+      renderizarSecao(bebidas || [], "grid-bebidas");
+      renderizarMaisVendidos(salgados || []);
+    } catch (error) {
+      console.error('❌ Erro ao carregar:', error);
+      document.getElementById("grid-salgados").innerHTML = '<p style="color:red; grid-column:1/-1;">Erro ao conectar com Supabase</p>';
+    }
+  }
+
+  function renderizarMaisVendidos(produtos) {
+    const grid = document.getElementById("grid-mais-vendidos");
+    grid.innerHTML = "";
+    produtos.slice(0, 4).forEach(p => { grid.appendChild(criarCardProduto(p)); });
+  }
+
+  function renderizarSecao(produtos, idGrid) {
+    const grid = document.getElementById(idGrid);
+    grid.innerHTML = "";
+    
+    if(produtos.length === 0) {
+      grid.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1;">Nenhum produto disponível</p>';
+      return;
+    }
+    
+    produtos.forEach(p => { grid.appendChild(criarCardProduto(p)); });
+  }
+
+  function criarCardProduto(p) {
+    const card = document.createElement("div");
+    card.className = `produto-card ${p.estoque <= 0 ? 'esgotado' : ''}`;
+    card.setAttribute("onclick", `abrirModal('${p.id}')`);
+    
+    card.innerHTML = `
+      ${p.estoque <= 0 ? '<div class="badge-esgotado">ESGOTADO</div>' : ''}
+      <div class="produto-info">
+        <div>
+          <h3>${p.titulo}</h3>
+          <p class="descricao-curta">${p.descricao || ''}</p>
+        </div>
+        <div class="preco-linha"><span class="preco">R$ ${parseFloat(p.preco).toFixed(2).replace('.', ',')}</span></div>
+      </div>
+      <div class="produto-img-container">
+        <img class="produto-img" src="${p.imagem_url || 'https://via.placeholder.com/95'}" alt="${p.titulo}">
+        <button class="btn-adicionar" onclick="adicionarAoCarrinho('${p.id}', '${p.titulo}', ${p.preco}, event)">ADICIONAR</button>
+      </div>`;
+    
+    return card;
+  }
+
+  function abrirModal(id) {
+    produtoSelecionadoModalId = id;
+    document.getElementById("modal-visualizar-titulo").innerText = "Carregando...";
+    document.getElementById("modal-produto").classList.add("ativo");
+  }
+
+  function adicionarAoCarrinho(id, titulo, preco, e) {
+    if(e) e.stopPropagation();
+    
+    let item = carrinho.find(i => i.id === id);
+    if(item) {
+      item.qtd++;
+    } else {
+      carrinho.push({ id, titulo, preco, qtd: 1 });
+    }
+    
+    atualizarInterfaceCarrinho();
+    mostrarToast("✅ " + titulo + " adicionado!");
+  }
+
+  async function processarPedido() {
+    if(carrinho.length === 0) return alert("Sua sacola está vazia!");
+    
+    const nome = document.getElementById("cliente-nome").value.trim();
+    const email = document.getElementById("cliente-email").value.trim();
+    const rua = document.getElementById("cliente-rua").value.trim();
+    const numero = document.getElementById("cliente-numero").value.trim();
+    
+    if(!nome || !rua || !numero) return alert("Preencha todos os dados!");
+
+    try {
+      const subtotal = carrinho.reduce((sum, i) => sum + (i.preco * i.qtd), 0);
+      const sel = document.getElementById("cliente-bairro");
+      const taxa = parseFloat(sel.options[sel.selectedIndex].getAttribute("data-taxa")) || 0;
+      let total = subtotal + taxa;
+
+      const { data, error } = await supabaseClient
+        .from('pedidos_de_vendas')
+        .insert([{
+          cliente_nome: nome,
+          cliente_email: email || null,
+          endereco_rua: rua,
+          endereco_numero: numero,
+          bairro: sel.value,
+          subtotal: subtotal,
+          taxa_entrega: taxa,
+          total: total,
+          status: 'Recebido',
+          pagamento: document.getElementById("cliente-pagamento").value
+        }])
+        .select();
+
+      if(error) throw error;
+
+      document.getElementById("recibo-conteudo").innerHTML = `
+        <strong>✅ Pedido Registrado!</strong><br>
+        Cliente: ${nome}<br>
+        Total: R$ ${total.toFixed(2)}<br>
+        <small>Enviando para WhatsApp...</small>`;
+      
+      document.getElementById("modal-sucesso").classList.add("ativo");
+
+      setTimeout(() => {
+        let msg = `*Novo Pedido Casa das Coxinhas*\n👤 ${nome}\n📍 ${rua}, ${numero}\n💰 R$ ${total.toFixed(2)}`;
+        window.open(`https://api.whatsapp.com/send?phone=${whatsappLoja}&text=${encodeURIComponent(msg)}`, '_blank');
+      }, 500);
+
+      carrinho = [];
+      atualizarInterfaceCarrinho();
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao processar pedido!');
+    }
+  }
+
+  // ========================================
+  // DASHBOARD ADMIN
+  // ========================================
+  async function atualizarDashboardAdmin() {
+    try {
+      const { data: vendas } = await supabaseClient
+        .from('pedidos_de_vendas')
+        .select('total');
+
+      if(vendas && vendas.length > 0) {
+        const faturamento = vendas.reduce((sum, v) => sum + (v.total || 0), 0);
+        const ticketMedio = faturamento / vendas.length;
+
+        document.getElementById("txt-faturamento-total").innerText = `R$ ${faturamento.toFixed(2).replace('.', ',')}`;
+        document.getElementById("metric-total-pedidos").innerText = vendas.length;
+        document.getElementById("metric-ticket-medio").innerText = `R$ ${ticketMedio.toFixed(2).replace('.', ',')}`;
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar dashboard:', error);
+    }
+  }
+
+  async function criarNovoCupomAdmin() {
+    const nome = document.getElementById("adm-cupom-nome").value.trim().toUpperCase();
+    const porcent = parseInt(document.getElementById("adm-cupom-porcentagem").value) || 0;
+    
+    if(!nome || porcent <= 0) return alert("Dados inválidos!");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from('cupons_management_table')
+        .insert([{ codigo: nome, porcentagem: porcent, ativo: true }])
+        .select();
+
+      if(error) throw error;
+
+      document.getElementById("adm-cupom-nome").value = "";
+      document.getElementById("adm-cupom-porcentagem").value = "";
+      mostrarToast("✅ Cupom criado!");
+      await carregarCuponsAdmin();
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao criar cupom!');
+    }
+  }
+
+  async function carregarCuponsAdmin() {
+    try {
+      const { data } = await supabaseClient
+        .from('cupons_management_table')
+        .select('*')
+        .eq('ativo', true);
+
+      const container = document.getElementById("adm-lista-cupons-render");
+      container.innerHTML = "";
+      (data || []).forEach(c => {
+        container.innerHTML += `<div style="background:#111; padding:4px; margin-bottom:2px; border-radius:4px;">🎫 <strong>${c.codigo}</strong> - ${c.porcentagem}% OFF</div>`;
+      });
+    } catch (error) {
+      console.error('Erro:', error);
+    }
+  }
+
+  // ========================================
+  // FUNÇÕES AUXILIARES
+  // ========================================
+  function atualizarInterfaceCarrinho() {
+    const count = carrinho.reduce((sum, i) => sum + i.qtd, 0);
+    document.getElementById("contador-carrinho").innerText = count;
+    
+    const container = document.getElementById("itens-carrinho");
+    container.innerHTML = "";
+    
+    if(carrinho.length === 0) {
+      container.innerHTML = '<p style="color:var(--text-muted); text-align:center; margin-top:30px;">Sacola vazia...</p>';
+    } else {
+      carrinho.forEach(i => {
+        container.innerHTML += `<div class="item-no-carrinho"><div class="item-carrinho-esquerda"><strong>${i.titulo}</strong><span>R$ ${(i.preco * i.qtd).toFixed(2)}</span></div><div class="controle-quantidade"><button onclick="alterarQtd('${i.id}', -1)">-</button><span>${i.qtd}</span><button onclick="alterarQtd('${i.id}', 1)">+</button></div></div>`;
+      });
+    }
+
+    const subtotal = carrinho.reduce((sum, i) => sum + (i.preco * i.qtd), 0);
+    const sel = document.getElementById("cliente-bairro");
+    const taxa = parseFloat(sel.options[sel.selectedIndex].getAttribute("data-taxa")) || 0;
+    let total = subtotal + taxa;
+
+    document.getElementById("subtotal-preco").innerText = `R$ ${subtotal.toFixed(2)}`;
+    document.getElementById("taxa-preco").innerText = `R$ ${taxa.toFixed(2)}`;
+    document.getElementById("total-preco").innerText = `R$ ${total.toFixed(2)}`;
+  }
+
+  function alterarQtd(id, delta) {
+    const item = carrinho.find(i => i.id === id);
+    if(!item) return;
+    item.qtd += delta;
+    if(item.qtd <= 0) carrinho = carrinho.filter(i => i.id !== id);
+    atualizarInterfaceCarrinho();
+  }
+
+  function adicionarItemComAdicionaisDoModal() {
+    if(!produtoSelecionadoModalId) return;
+    
+    const item = carrinho.find(i => i.id === produtoSelecionadoModalId);
+    if(item) {
+      item.qtd++;
+    } else {
+      carrinho.push({ id: produtoSelecionadoModalId, titulo: "Produto", preco: 0, qtd: 1 });
+    }
+    
+    fecharModal();
+    atualizarInterfaceCarrinho();
+    mostrarToast("✨ Item adicionado!");
+  }
+
+  function toggleCarrinho() { 
+    document.getElementById("menu-lateral-esquerdo").classList.remove("aberto");
+    document.getElementById("carrinho-lateral").classList.toggle("aberto");
+  }
+
+  function toggleMenuUsuario() {
+    document.getElementById("carrinho-lateral").classList.remove("aberto");
+    document.getElementById("menu-lateral-esquerdo").classList.toggle("aberto");
+  }
+
+  function fecharModal() { document.getElementById("modal-produto").classList.remove("ativo"); }
+  function fecharModalExterno(e) { if(e.target.classList.contains('modal-overlay')) fecharModal(); }
+  function mudarAbaMenu(id, b) {
+    document.querySelectorAll('.aba-conteudo-painel').forEach(el => el.classList.remove('ativa'));
+    document.querySelectorAll('.aba-btn').forEach(el => el.classList.remove('ativa'));
+    document.getElementById(id).classList.add('ativa');
+    b.classList.add('ativa');
+  }
+  function mostrarToast(t) {
+    const x = document.getElementById("toast-confirmacao");
+    x.innerText = t;
+    x.classList.add("mostrar");
+    setTimeout(() => x.classList.remove("mostrar"), 2000);
+  }
+  function fecharModalSucesso() {
+    document.getElementById("modal-sucesso").classList.remove("ativo");
+  }
+  function abrirModalLoginAdmin() { document.getElementById("modal-login-admin").classList.add("ativo"); }
+  function fecharModalLoginAdmin() { document.getElementById("modal-login-admin").classList.remove("ativo"); }
+  function autenticarDono() {
+    if(document.getElementById("input-senha-admin").value === SENHA_DONO) {
+      fecharModalLoginAdmin();
+      document.getElementById("admin-fullscreen").classList.add("ativo");
+      carregarCuponsAdmin();
+    }
+  }
+  function fecharAdminPainel() { document.getElementById("admin-fullscreen").classList.remove("ativo"); }
+  function realizarLoginCliente() {
+    const email = document.getElementById("login-email").value;
+    if(!email) return alert("Digite seu e-mail!");
+    clienteLogado = { email };
+    document.getElementById("painel-deslogado").style.display = "none";
+    document.getElementById("painel-logado").style.display = "block";
+    document.getElementById("txt-perfil-nome").innerText = `Olá, ${email.split('@')[0]}!`;
+  }
+  function logoutCliente() {
+    clienteLogado = null;
+    document.getElementById("painel-deslogado").style.display = "block";
+    document.getElementById("painel-logado").style.display = "none";
+  }
+</script>
+</body>
+</html>
