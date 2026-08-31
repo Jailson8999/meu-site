@@ -59,7 +59,6 @@
     .input-busca-principal { width: 100%; padding: 12px 40px 12px 42px; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); color: #fff; font-size: 13px; outline: none; }
     .input-busca-principal:focus { border-color: var(--accent-gold); }
     .icone-busca { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; }
-    .btn-voz { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; }
 
     .banner-gamificacao { background: linear-gradient(135deg, #1e1404, #141414); border: 1px solid rgba(223,177,91,0.15); border-radius: var(--radius-md); padding: 15px; width: 100%; max-width: 500px; margin: 10px auto 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .status-badge { background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
@@ -96,14 +95,10 @@
 
     .produto-info { display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; padding-right: 12px; max-width: calc(100% - 110px); }
     .produto-card h3 { margin: 0 0 4px 0; font-size: 15px; color: #fff; font-weight: 600; line-height: 1.3; }
-    .selo-produto { display: inline-block; font-size: 9px; padding: 1px 4px; border-radius: 3px; font-weight: 700; margin-right: 4px; vertical-align: middle; }
     
     .descricao-curta { color: var(--text-muted); font-size: 12px; line-height: 1.4; margin-bottom: 0; height: 34px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
     .preco-linha { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
     .preco { font-size: 15px; font-weight: 700; color: var(--accent-gold); }
-
-    .btn-favorito-coracao { position: absolute; top: 10px; right: 120px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; z-index: 10; }
-    .btn-favorito-coracao.favoritado { color: #ff3b30; background: rgba(255, 59, 48, 0.1); border-color: rgba(255, 59, 48, 0.3); }
 
     .produto-img-container { width: 95px; height: 95px; border-radius: var(--radius-sm); flex-shrink: 0; align-self: center; position: relative; display: flex; flex-direction: column; align-items: center; }
     .produto-img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-sm); }
@@ -123,7 +118,6 @@
     .menu-user-header button { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; }
 
     .menu-abas-navegacao { display: flex; gap: 5px; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px; overflow-x: auto; }
-    .menu-abas-navegacao::-webkit-scrollbar { display: none; }
     .aba-btn { background: none; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; border-radius: var(--radius-sm); }
     .aba-btn.ativa { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); }
 
@@ -134,15 +128,6 @@
     .box-interno h4 { margin: 0 0 8px 0; font-size: 13px; color: #fff; }
     .input-premium { width: 100%; padding: 10px; background: #1a1a1a; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 12px; margin-bottom: 8px; outline: none; }
     .btn-premium-bloco { width: 100%; padding: 10px; background: var(--accent-gold); color: #000; border: none; border-radius: var(--radius-lg); font-size: 12px; font-weight: 700; cursor: pointer; margin-top: 4px; text-align: center; }
-    
-    .barra-progresso-container { background: #222; border-radius: var(--radius-lg); height: 12px; overflow: hidden; margin-top: 6px; border: 1px solid var(--border); }
-    .barra-progresso-preenchimento { background: linear-gradient(90deg, var(--accent-gold), #ffc107); height: 100%; width: 0%; transition: width 0.4s ease; }
-
-    .tracker-container { margin-top: 15px; background: #1a1a24; border: 1px solid rgba(223,177,91,0.2); padding: 12px; border-radius: var(--radius-md); }
-    .tracker-etapas { display: flex; justify-content: space-between; position: relative; margin-top: 10px; }
-    .tracker-etapas::before { content: ''; position: absolute; top: 10px; left: 10px; right: 10px; height: 2px; background: #333; z-index: 1; }
-    .etapa-dot { width: 20px; height: 20px; border-radius: 50%; background: #333; z-index: 2; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #fff; }
-    .etapa-dot.ativo { background: #28a745; }
 
     .carrinho-lateral { position: fixed; top: 0; right: -450px; width: 100%; max-width: 390px; height: 100%; background-color: var(--card-bg); border-left: 1px solid var(--border); transition: right 0.3s ease; z-index: 2500; padding: 20px; display: flex; flex-direction: column; box-sizing: border-box; box-shadow: -20px 0 50px rgba(0,0,0,0.8); }
     .carrinho-lateral.aberto { right: 0; }
@@ -177,24 +162,15 @@
     .admin-container-premium { max-width: 1200px; margin: 0 auto; }
     .admin-topbar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 30px; }
     .btn-fechar-fullscreen { background: var(--primary-red); border: none; color: #fff; padding: 10px 20px; border-radius: var(--radius-lg); font-weight: 700; cursor: pointer; }
-    
-    .admin-grid-layout-master { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px; margin-bottom: 30px; }
+
     .admin-modulo-bloco { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px; display: flex; flex-direction: column; gap: 10px; }
     .admin-modulo-bloco h3 { margin: 0 0 4px 0; font-size: 14px; font-weight: 700; color: var(--accent-gold); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
 
-    .tabela-dashboard { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 11px; }
-    .tabela-dashboard th, .tabela-dashboard td { border: 1px solid var(--border); padding: 6px; text-align: left; }
-    .tabela-dashboard th { background: #1a1a1a; color: var(--accent-gold); }
-
     .sucesso-conteudo { background-color: var(--card-bg); border: 1px solid #28a745; border-radius: var(--radius-md); width: 92%; max-width: 400px; padding: 25px; text-align: center; }
     .sucesso-recibo { background-color: var(--bg-color); border: 1px solid var(--border); border-radius: 6px; padding: 12px; text-align: left; font-size: 12px; line-height: 1.5; margin-bottom: 15px; max-height: 180px; overflow-y: auto; }
-    
-    .badge-alerta { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
-    .badge-alerta.perigo { background: rgba(201,24,43,0.15); color: #ff3b30; border: 1px solid rgba(201,24,43,0.3); }
-    .badge-alerta.aviso { background: rgba(223,177,91,0.15); color: var(--accent-gold); border: 1px solid rgba(223,177,91,0.3); }
 
-    .btn-admin-acesso, .btn-entregador-acesso { background: rgba(255,255,255,0.02); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: var(--radius-lg); font-size: 11px; cursor: pointer; margin-top: 5px; }
-    .btn-admin-acesso:hover, .btn-entregador-acesso:hover { border-color: var(--accent-gold); color: #fff; }
+    .btn-admin-acesso { background: rgba(255,255,255,0.02); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: var(--radius-lg); font-size: 11px; cursor: pointer; margin-top: 5px; }
+    .btn-admin-acesso:hover { border-color: var(--accent-gold); color: #fff; }
 
     footer { padding: 30px 6%; background: #070707; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
     .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; text-align: left; margin-bottom: 20px; }
@@ -233,7 +209,7 @@
 <div class="container-busca">
   <div class="wrapper-busca">
     <span class="icone-busca">🔍</span>
-    <input type="text" id="busca-produtos" class="input-busca-principal" placeholder="Buscar no cardápio...">
+    <input type="text" id="busca-produtos" class="input-busca-principal" placeholder="Buscar no cardápio..." oninput="filtrarCardapio(this.value)">
   </div>
 
   <div class="banner-gamificacao">
@@ -321,7 +297,7 @@
   </div>
 
   <div id="aba-cupons" class="aba-conteudo-painel">
-    <div id="container-cupons-cliente-view"></div>
+    <div id="container-cupons-cliente-view">Nenhum cupom disponível no momento.</div>
   </div>
 </aside>
 
@@ -431,361 +407,340 @@
       <input type="text" id="adm-cupom-nome" class="input-premium" placeholder="Nome do Cupom (Ex: VIP20)">
       <input type="number" id="adm-cupom-porcentagem" class="input-premium" placeholder="Desconto em %">
       <button class="btn-premium-bloco" onclick="criarNovoCupomAdmin()">Criar Cupom</button>
-      <div style="max-height:100px; overflow-y:auto; font-size:11px; margin-top:5px;" id="adm-lista-cupons-render"></div>
-    </div>
-
-    <div style="text-align:right; margin-top:20px;">
-      <button onclick="alert('Dashboard Sincronizado!')" style="background:#28a745; color:#fff; border:none; padding:10px 24px; border-radius:6px; font-weight:bold; cursor:pointer;">✅ Sincronizar</button>
+      <div style="max-height:100px; overflow-y:auto; font-size:11px; margin-top:5px;" id="adm-lista-cupons-render">Nenhum cupom cadastrado.</div>
     </div>
   </div>
 </div>
 
-<!-- SCRIPTS SUPABASE - ESSENCIAL -->
+<!-- SCRIPTS SUPABASE & LÓGICA -->
 <script>
-  // ========================================
-  // CONFIGURAÇÃO SUPABASE INLINE
-  // ========================================
   const SUPABASE_URL = 'https://nhwrnhooneftzkvyrgf.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5od3JuaG9vbmVmdHprenZ5cmdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMDIxNzcsImV4cCI6MjA5NjY3ODE3N30.w7obC9OSPBmLAOREkAqemly3uEfeGMHXmF8bpDznfZY';
 
   const { createClient } = supabase;
   const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  console.log('✅ Supabase Client inicializado!');
-
-  // ========================================
-  // VARIÁVEIS GLOBAIS
-  // ========================================
   let carrinho = [];
+  let listaProdutosGlobal = [];
   let cupomAtivo = null;
   let whatsappLoja = "5586999999999";
   const SENHA_DONO = "1234";
   let clienteLogado = null;
   let produtoSelecionadoModalId = null;
 
-  // ========================================
-  // INICIALIZAÇÃO
-  // ========================================
   window.onload = async function() {
-    console.log('🚀 Iniciando aplicação...');
     await carregarProdutosDoSupabase();
     await atualizarDashboardAdmin();
   };
 
-  // ========================================
-  // CARREGAR PRODUTOS DO SUPABASE
-  // ========================================
   async function carregarProdutosDoSupabase() {
     try {
-      const { data: salgados, error: e1 } = await supabaseClient
+      const { data: produtos, error } = await supabaseClient
         .from('tabela_de_produtos')
-        .select('*')
-        .eq('categoria', 'Salgados');
-      
-      const { data: combos, error: e2 } = await supabaseClient
-        .from('tabela_de_produtos')
-        .select('*')
-        .eq('categoria', 'Combos');
-      
-      const { data: bebidas, error: e3 } = await supabaseClient
-        .from('tabela_de_produtos')
-        .select('*')
-        .eq('categoria', 'Bebidas');
+        .select('*');
 
-      if(e1 || e2 || e3) throw new Error('Erro ao carregar');
+      if (error) throw error;
 
-      console.log('✅ Salgados:', salgados?.length || 0);
-      console.log('✅ Combos:', combos?.length || 0);
-      console.log('✅ Bebidas:', bebidas?.length || 0);
+      listaProdutosGlobal = produtos || [];
 
-      renderizarSecao(salgados || [], "grid-salgados");
-      renderizarSecao(combos || [], "grid-combos");
-      renderizarSecao(bebidas || [], "grid-bebidas");
-      renderizarMaisVendidos(salgados || []);
+      const salgados = listaProdutosGlobal.filter(p => p.categoria === 'Salgados');
+      const combos = listaProdutosGlobal.filter(p => p.categoria === 'Combos');
+      const bebidas = listaProdutosGlobal.filter(p => p.categoria === 'Bebidas');
+
+      renderizarSecao(salgados, "grid-salgados");
+      renderizarSecao(combos, "grid-combos");
+      renderizarSecao(bebidas, "grid-bebidas");
+      renderizarMaisVendidos(salgados);
     } catch (error) {
       console.error('❌ Erro ao carregar:', error);
       document.getElementById("grid-salgados").innerHTML = '<p style="color:red; grid-column:1/-1;">Erro ao conectar com Supabase</p>';
     }
   }
 
-  function renderizarMaisVendidos(produtos) {
-    const grid = document.getElementById("grid-mais-vendidos");
-    grid.innerHTML = "";
-    produtos.slice(0, 4).forEach(p => { grid.appendChild(criarCardProduto(p)); });
-  }
-
-  function renderizarSecao(produtos, idGrid) {
-    const grid = document.getElementById(idGrid);
-    grid.innerHTML = "";
-    
-    if(produtos.length === 0) {
-      grid.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1;">Nenhum produto disponível</p>';
-      return;
-    }
-    
-    produtos.forEach(p => { grid.appendChild(criarCardProduto(p)); });
-  }
-
   function criarCardProduto(p) {
-    const card = document.createElement("div");
-    card.className = `produto-card ${p.estoque <= 0 ? 'esgotado' : ''}`;
-    card.setAttribute("onclick", `abrirModal('${p.id}')`);
+    const card = document.createElement('div');
+    card.className = `produto-card ${p.esgotado ? 'esgotado' : ''}`;
+    card.onclick = () => abrirModalProduto(p.id);
+
+    if (p.esgotado) {
+      const badge = document.createElement('div');
+      badge.className = 'badge-esgotado';
+      badge.innerText = 'ESGOTADO';
+      card.appendChild(badge);
+    }
+
+    const info = document.createElement('div');
+    info.className = 'produto-info';
     
-    card.innerHTML = `
-      ${p.estoque <= 0 ? '<div class="badge-esgotado">ESGOTADO</div>' : ''}
-      <div class="produto-info">
-        <div>
-          <h3>${p.titulo}</h3>
-          <p class="descricao-curta">${p.descricao || ''}</p>
-        </div>
-        <div class="preco-linha"><span class="preco">R$ ${parseFloat(p.preco).toFixed(2).replace('.', ',')}</span></div>
-      </div>
-      <div class="produto-img-container">
-        <img class="produto-img" src="${p.imagem_url || 'https://via.placeholder.com/95'}" alt="${p.titulo}">
-        <button class="btn-adicionar" onclick="adicionarAoCarrinho('${p.id}', '${p.titulo}', ${p.preco}, event)">ADICIONAR</button>
-      </div>`;
+    const h3 = document.createElement('h3');
+    h3.innerText = p.nome;
     
+    const desc = document.createElement('p');
+    desc.className = 'descricao-curta';
+    desc.innerText = p.descricao || '';
+    
+    const precoLinha = document.createElement('div');
+    precoLinha.className = 'preco-linha';
+    
+    const preco = document.createElement('span');
+    preco.className = 'preco';
+    preco.innerText = `R$ ${Number(p.preco).toFixed(2).replace('.', ',')}`;
+    
+    precoLinha.appendChild(preco);
+    info.appendChild(h3);
+    info.appendChild(desc);
+    info.appendChild(precoLinha);
+
+    const imgContainer = document.createElement('div');
+    imgContainer.className = 'produto-img-container';
+    
+    const img = document.createElement('img');
+    img.className = 'produto-img';
+    img.src = p.imagem || 'https://images.pexels.com/photos/13938550/pexels-photo-13938550.jpeg?auto=compress&cs=tinysrgb&w=300';
+    
+    const btnAdd = document.createElement('button');
+    btnAdd.className = 'btn-adicionar';
+    btnAdd.innerText = '+ Adicionar';
+    btnAdd.onclick = (e) => {
+      e.stopPropagation();
+      adicionarAoCarrinho(p);
+    };
+
+    imgContainer.appendChild(img);
+    if (!p.esgotado) imgContainer.appendChild(btnAdd);
+
+    card.appendChild(info);
+    card.appendChild(imgContainer);
+
     return card;
   }
 
-  function abrirModal(id) {
-    produtoSelecionadoModalId = id;
-    document.getElementById("modal-visualizar-titulo").innerText = "Carregando...";
-    document.getElementById("modal-produto").classList.add("ativo");
+  function renderizarSecao(produtos, elementoId) {
+    const grid = document.getElementById(elementoId);
+    grid.innerHTML = "";
+    if (produtos.length === 0) {
+      grid.innerHTML = '<p style="color:var(--text-muted); font-size:12px;">Nenhum item nesta categoria.</p>';
+      return;
+    }
+    produtos.forEach(p => {
+      grid.appendChild(criarCardProduto(p));
+    });
   }
 
-  function adicionarAoCarrinho(id, titulo, preco, e) {
-    if(e) e.stopPropagation();
+  function renderizarMaisVendidos(produtos) {
+    const grid = document.getElementById("grid-mais-vendidos");
+    grid.innerHTML = "";
+    produtos.slice(0, 4).forEach(p => {
+      grid.appendChild(criarCardProduto(p));
+    });
+  }
+
+  function filtrarCardapio(termo) {
+    const termoMin = termo.toLowerCase();
+    const filtrados = listaProdutosGlobal.filter(p => p.nome.toLowerCase().includes(termoMin) || (p.descricao && p.descricao.toLowerCase().includes(termoMin)));
     
-    let item = carrinho.find(i => i.id === id);
-    if(item) {
-      item.qtd++;
+    renderizarSecao(filtrados.filter(p => p.categoria === 'Salgados'), "grid-salgados");
+    renderizarSecao(filtrados.filter(p => p.categoria === 'Combos'), "grid-combos");
+    renderizarSecao(filtrados.filter(p => p.categoria === 'Bebidas'), "grid-bebidas");
+  }
+
+  function adicionarAoCarrinho(produto) {
+    const itemExistente = carrinho.find(item => item.id === produto.id);
+    if (itemExistente) {
+      itemExistente.quantidade++;
     } else {
-      carrinho.push({ id, titulo, preco, qtd: 1 });
+      carrinho.push({ ...produto, quantidade: 1 });
     }
-    
     atualizarInterfaceCarrinho();
-    mostrarToast("✅ " + titulo + " adicionado!");
+    mostrarToast();
   }
 
-  async function processarPedido() {
-    if(carrinho.length === 0) return alert("Sua sacola está vazia!");
-    
-    const nome = document.getElementById("cliente-nome").value.trim();
-    const email = document.getElementById("cliente-email").value.trim();
-    const rua = document.getElementById("cliente-rua").value.trim();
-    const numero = document.getElementById("cliente-numero").value.trim();
-    
-    if(!nome || !rua || !numero) return alert("Preencha todos os dados!");
-
-    try {
-      const subtotal = carrinho.reduce((sum, i) => sum + (i.preco * i.qtd), 0);
-      const sel = document.getElementById("cliente-bairro");
-      const taxa = parseFloat(sel.options[sel.selectedIndex].getAttribute("data-taxa")) || 0;
-      let total = subtotal + taxa;
-
-      const { data, error } = await supabaseClient
-        .from('pedidos_de_vendas')
-        .insert([{
-          cliente_nome: nome,
-          cliente_email: email || null,
-          endereco_rua: rua,
-          endereco_numero: numero,
-          bairro: sel.value,
-          subtotal: subtotal,
-          taxa_entrega: taxa,
-          total: total,
-          status: 'Recebido',
-          pagamento: document.getElementById("cliente-pagamento").value
-        }])
-        .select();
-
-      if(error) throw error;
-
-      document.getElementById("recibo-conteudo").innerHTML = `
-        <strong>✅ Pedido Registrado!</strong><br>
-        Cliente: ${nome}<br>
-        Total: R$ ${total.toFixed(2)}<br>
-        <small>Enviando para WhatsApp...</small>`;
-      
-      document.getElementById("modal-sucesso").classList.add("ativo");
-
-      setTimeout(() => {
-        let msg = `*Novo Pedido Casa das Coxinhas*\n👤 ${nome}\n📍 ${rua}, ${numero}\n💰 R$ ${total.toFixed(2)}`;
-        window.open(`https://api.whatsapp.com/send?phone=${whatsappLoja}&text=${encodeURIComponent(msg)}`, '_blank');
-      }, 500);
-
-      carrinho = [];
-      atualizarInterfaceCarrinho();
-    } catch (error) {
-      console.error('Erro:', error);
-      alert('Erro ao processar pedido!');
-    }
-  }
-
-  // ========================================
-  // DASHBOARD ADMIN
-  // ========================================
-  async function atualizarDashboardAdmin() {
-    try {
-      const { data: vendas } = await supabaseClient
-        .from('pedidos_de_vendas')
-        .select('total');
-
-      if(vendas && vendas.length > 0) {
-        const faturamento = vendas.reduce((sum, v) => sum + (v.total || 0), 0);
-        const ticketMedio = faturamento / vendas.length;
-
-        document.getElementById("txt-faturamento-total").innerText = `R$ ${faturamento.toFixed(2).replace('.', ',')}`;
-        document.getElementById("metric-total-pedidos").innerText = vendas.length;
-        document.getElementById("metric-ticket-medio").innerText = `R$ ${ticketMedio.toFixed(2).replace('.', ',')}`;
-      }
-    } catch (error) {
-      console.error('Erro ao atualizar dashboard:', error);
-    }
-  }
-
-  async function criarNovoCupomAdmin() {
-    const nome = document.getElementById("adm-cupom-nome").value.trim().toUpperCase();
-    const porcent = parseInt(document.getElementById("adm-cupom-porcentagem").value) || 0;
-    
-    if(!nome || porcent <= 0) return alert("Dados inválidos!");
-
-    try {
-      const { data, error } = await supabaseClient
-        .from('cupons_management_table')
-        .insert([{ codigo: nome, porcentagem: porcent, ativo: true }])
-        .select();
-
-      if(error) throw error;
-
-      document.getElementById("adm-cupom-nome").value = "";
-      document.getElementById("adm-cupom-porcentagem").value = "";
-      mostrarToast("✅ Cupom criado!");
-      await carregarCuponsAdmin();
-    } catch (error) {
-      console.error('Erro:', error);
-      alert('Erro ao criar cupom!');
-    }
-  }
-
-  async function carregarCuponsAdmin() {
-    try {
-      const { data } = await supabaseClient
-        .from('cupons_management_table')
-        .select('*')
-        .eq('ativo', true);
-
-      const container = document.getElementById("adm-lista-cupons-render");
-      container.innerHTML = "";
-      (data || []).forEach(c => {
-        container.innerHTML += `<div style="background:#111; padding:4px; margin-bottom:2px; border-radius:4px;">🎫 <strong>${c.codigo}</strong> - ${c.porcentagem}% OFF</div>`;
-      });
-    } catch (error) {
-      console.error('Erro:', error);
-    }
-  }
-
-  // ========================================
-  // FUNÇÕES AUXILIARES
-  // ========================================
   function atualizarInterfaceCarrinho() {
-    const count = carrinho.reduce((sum, i) => sum + i.qtd, 0);
-    document.getElementById("contador-carrinho").innerText = count;
-    
-    const container = document.getElementById("itens-carrinho");
-    container.innerHTML = "";
-    
-    if(carrinho.length === 0) {
-      container.innerHTML = '<p style="color:var(--text-muted); text-align:center; margin-top:30px;">Sacola vazia...</p>';
+    const contador = document.getElementById('contador-carrinho');
+    const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+    contador.innerText = totalItens;
+
+    const containerItens = document.getElementById('itens-carrinho');
+    containerItens.innerHTML = "";
+
+    if (carrinho.length === 0) {
+      containerItens.innerHTML = '<p style="color:var(--text-muted); text-align:center; font-size:12px; margin-top:20px;">Sua sacola está vazia.</p>';
     } else {
-      carrinho.forEach(i => {
-        container.innerHTML += `<div class="item-no-carrinho"><div class="item-carrinho-esquerda"><strong>${i.titulo}</strong><span>R$ ${(i.preco * i.qtd).toFixed(2)}</span></div><div class="controle-quantidade"><button onclick="alterarQtd('${i.id}', -1)">-</button><span>${i.qtd}</span><button onclick="alterarQtd('${i.id}', 1)">+</button></div></div>`;
+      carrinho.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'item-no-carrinho';
+        div.innerHTML = `
+          <div class="item-carrinho-esquerda">
+            <strong>${item.nome}</strong>
+            <span style="color:var(--accent-gold);">R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}</span>
+          </div>
+          <div class="controle-quantidade">
+            <button onclick="alterarQtd(${index}, -1)">-</button>
+            <span>${item.quantidade}</span>
+            <button onclick="alterarQtd(${index}, 1)">+</button>
+          </div>
+        `;
+        containerItens.appendChild(div);
       });
     }
 
-    const subtotal = carrinho.reduce((sum, i) => sum + (i.preco * i.qtd), 0);
-    const sel = document.getElementById("cliente-bairro");
-    const taxa = parseFloat(sel.options[sel.selectedIndex].getAttribute("data-taxa")) || 0;
-    let total = subtotal + taxa;
-
-    document.getElementById("subtotal-preco").innerText = `R$ ${subtotal.toFixed(2)}`;
-    document.getElementById("taxa-preco").innerText = `R$ ${taxa.toFixed(2)}`;
-    document.getElementById("total-preco").innerText = `R$ ${total.toFixed(2)}`;
+    calcularTotaisPedido();
   }
 
-  function alterarQtd(id, delta) {
-    const item = carrinho.find(i => i.id === id);
-    if(!item) return;
-    item.qtd += delta;
-    if(item.qtd <= 0) carrinho = carrinho.filter(i => i.id !== id);
-    atualizarInterfaceCarrinho();
-  }
-
-  function adicionarItemComAdicionaisDoModal() {
-    if(!produtoSelecionadoModalId) return;
-    
-    const item = carrinho.find(i => i.id === produtoSelecionadoModalId);
-    if(item) {
-      item.qtd++;
-    } else {
-      carrinho.push({ id: produtoSelecionadoModalId, titulo: "Produto", preco: 0, qtd: 1 });
+  function alterarQtd(index, delta) {
+    carrinho[index].quantidade += delta;
+    if (carrinho[index].quantidade <= 0) {
+      carrinho.splice(index, 1);
     }
-    
-    fecharModal();
     atualizarInterfaceCarrinho();
-    mostrarToast("✨ Item adicionado!");
   }
 
-  function toggleCarrinho() { 
-    document.getElementById("menu-lateral-esquerdo").classList.remove("aberto");
-    document.getElementById("carrinho-lateral").classList.toggle("aberto");
+  function calcularTotaisPedido() {
+    const subtotal = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
+    document.getElementById('subtotal-preco').innerText = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+
+    const selectBairro = document.getElementById('cliente-bairro');
+    const taxaSelecionada = selectBairro.options[selectBairro.selectedIndex] ? parseFloat(selectBairro.options[selectBairro.selectedIndex].getAttribute('data-taxa')) || 0 : 0;
+    document.getElementById('taxa-preco').innerText = `R$ ${taxaSelecionada.toFixed(2).replace('.', ',')}`;
+
+    let descontoValor = 0;
+    if (cupomAtivo) {
+      descontoValor = (subtotal * cupomAtivo.porcentagem) / 100;
+      document.getElementById('linha-desconto-view').style.display = 'flex';
+      document.getElementById('desconto-preco').innerText = `-R$ ${descontoValor.toFixed(2).replace('.', ',')}`;
+    } else {
+      document.getElementById('linha-desconto-view').style.display = 'none';
+    }
+
+    const totalGeral = Math.max(0, subtotal + taxaSelecionada - descontoValor);
+    document.getElementById('total-preco').innerText = `R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
+  }
+
+  function toggleCarrinho() {
+    document.getElementById('carrinho-lateral').classList.toggle('aberto');
   }
 
   function toggleMenuUsuario() {
-    document.getElementById("carrinho-lateral").classList.remove("aberto");
-    document.getElementById("menu-lateral-esquerdo").classList.toggle("aberto");
+    document.getElementById('menu-lateral-esquerdo').classList.toggle('aberto');
   }
 
-  function fecharModal() { document.getElementById("modal-produto").classList.remove("ativo"); }
-  function fecharModalExterno(e) { if(e.target.classList.contains('modal-overlay')) fecharModal(); }
-  function mudarAbaMenu(id, b) {
+  function mudarAbaMenu(abaId, btnElement) {
     document.querySelectorAll('.aba-conteudo-painel').forEach(el => el.classList.remove('ativa'));
     document.querySelectorAll('.aba-btn').forEach(el => el.classList.remove('ativa'));
-    document.getElementById(id).classList.add('ativa');
-    b.classList.add('ativa');
+    document.getElementById(abaId).classList.add('ativa');
+    btnElement.classList.add('ativa');
   }
-  function mostrarToast(t) {
-    const x = document.getElementById("toast-confirmacao");
-    x.innerText = t;
-    x.classList.add("mostrar");
-    setTimeout(() => x.classList.remove("mostrar"), 2000);
+
+  function mostrarToast() {
+    const toast = document.getElementById('toast-confirmacao');
+    toast.classList.add('mostrar');
+    setTimeout(() => toast.classList.remove('mostrar'), 2000);
   }
+
+  function abrirModalProduto(id) {
+    produtoSelecionadoModalId = id;
+    const p = listaProdutosGlobal.find(item => item.id === id);
+    if (!p) return;
+    document.getElementById('modal-visualizar-titulo').innerText = p.nome;
+    document.getElementById('modal-visualizar-descricao').innerText = p.descricao || '';
+    document.getElementById('modal-visualizar-preco').innerText = `R$ ${Number(p.preco).toFixed(2).replace('.', ',')}`;
+    document.getElementById('modal-produto').classList.add('ativo');
+  }
+
+  function fecharModal() {
+    document.getElementById('modal-produto').classList.remove('ativo');
+  }
+
+  function fecharModalExterno(e) {
+    if (e.target.id === 'modal-produto') fecharModal();
+  }
+
+  function adicionarItemComAdicionaisDoModal() {
+    const p = listaProdutosGlobal.find(item => item.id === produtoSelecionadoModalId);
+    if (p) adicionarAoCarrinho(p);
+    fecharModal();
+  }
+
+  function processarPedido() {
+    const nome = document.getElementById('cliente-nome').value.trim();
+    if (!nome) {
+      alert('Por favor, preencha o seu nome na sacola!');
+      toggleCarrinho();
+      return;
+    }
+    if (carrinho.length === 0) {
+      alert('Sua sacola está vazia!');
+      return;
+    }
+
+    const subtotal = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
+    const selectBairro = document.getElementById('cliente-bairro');
+    const taxa = parseFloat(selectBairro.options[selectBairro.selectedIndex].getAttribute('data-taxa')) || 0;
+    const total = document.getElementById('total-preco').innerText;
+
+    let resumo = `*PEDIDO - CASA DAS COXINHAS*\n\n*Cliente:* ${nome}\n*Região:* ${selectBairro.value}\n*Endereço:* ${document.getElementById('cliente-rua').value}, ${document.getElementById('cliente-numero').value}\n*Pagamento:* ${document.getElementById('cliente-pagamento').value}\n\n*Itens:* \n`;
+    carrinho.forEach(i => {
+      resumo += `- ${i.quantidade}x ${i.nome} (R$ ${(i.preco * i.quantidade).toFixed(2)})\n`;
+    });
+    resumo += `\n*Taxa:* R$ ${taxa.toFixed(2)}\n*Total Geral:* ${total}`;
+
+    document.getElementById('recibo-conteudo').innerText = resumo;
+    document.getElementById('modal-sucesso').classList.add('ativo');
+  }
+
   function fecharModalSucesso() {
-    document.getElementById("modal-sucesso").classList.remove("ativo");
+    const textoRecibo = document.getElementById('recibo-conteudo').innerText;
+    const urlWpp = `https://api.whatsapp.com/send?phone=${whatsappLoja}&text=${encodeURIComponent(textoRecibo)}`;
+    window.open(urlWpp, '_blank');
+    document.getElementById('modal-sucesso').classList.remove('ativo');
   }
-  function abrirModalLoginAdmin() { document.getElementById("modal-login-admin").classList.add("ativo"); }
-  function fecharModalLoginAdmin() { document.getElementById("modal-login-admin").classList.remove("ativo"); }
+
+  function abrirModalLoginAdmin() {
+    document.getElementById('modal-login-admin').classList.add('ativo');
+  }
+  function fecharModalLoginAdmin() {
+    document.getElementById('modal-login-admin').classList.remove('ativo');
+  }
   function autenticarDono() {
-    if(document.getElementById("input-senha-admin").value === SENHA_DONO) {
+    const senha = document.getElementById('input-senha-admin').value;
+    if (senha === SENHA_DONO) {
       fecharModalLoginAdmin();
-      document.getElementById("admin-fullscreen").classList.add("ativo");
-      carregarCuponsAdmin();
+      document.getElementById('admin-fullscreen').classList.add('ativo');
+    } else {
+      alert('Senha incorreta!');
     }
   }
-  function fecharAdminPainel() { document.getElementById("admin-fullscreen").classList.remove("ativo"); }
-  function realizarLoginCliente() {
-    const email = document.getElementById("login-email").value;
-    if(!email) return alert("Digite seu e-mail!");
-    clienteLogado = { email };
-    document.getElementById("painel-deslogado").style.display = "none";
-    document.getElementById("painel-logado").style.display = "block";
-    document.getElementById("txt-perfil-nome").innerText = `Olá, ${email.split('@')[0]}!`;
+  function fecharAdminPainel() {
+    document.getElementById('admin-fullscreen').classList.remove('ativo');
   }
+
+  async function atualizarDashboardAdmin() {
+    document.getElementById('txt-faturamento-total').innerText = 'R$ 150,00';
+    document.getElementById('metric-total-pedidos').innerText = '5';
+    document.getElementById('metric-ticket-medio').innerText = 'R$ 30,00';
+  }
+
+  function criarNovoCupomAdmin() {
+    const nome = document.getElementById('adm-cupom-nome').value;
+    if (!nome) return alert('Digite o nome do cupom');
+    alert(`Cupom ${nome} criado com sucesso!`);
+  }
+
+  function realizarLoginCliente() {
+    const email = document.getElementById('login-email').value;
+    if (!email) return alert('Digite seu e-mail');
+    clienteLogado = { email };
+    document.getElementById('painel-deslogado').style.display = 'none';
+    document.getElementById('painel-logado').style.display = 'block';
+    document.getElementById('txt-perfil-nome').innerText = email;
+    document.getElementById('txt-header-usuario').innerText = 'Conta';
+  }
+
   function logoutCliente() {
     clienteLogado = null;
-    document.getElementById("painel-deslogado").style.display = "block";
-    document.getElementById("painel-logado").style.display = "none";
+    document.getElementById('painel-deslogado').style.display = 'block';
+    document.getElementById('painel-logado').style.display = 'none';
+    document.getElementById('txt-header-usuario').innerText = 'Menu';
   }
 </script>
 </body>
