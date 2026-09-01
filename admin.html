@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo • Gestor Master</title>
+  <style>
+    :root {
+      --bg-deep: #09090b;
+      --bg-surface: #121216;
+      --bg-card: #18181b;
+      --border-color: #27272a;
+      --primary: #e11d48;
+      --primary-hover: #be123c;
+      --accent: #f59e0b;
+      --text-main: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --success: #10b981;
+      --info: #3b82f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      padding: 30px 20px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .admin-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      padding: 20px 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+    }
+
+    .admin-topbar h1 {
+      color: var(--accent);
+      font-size: 1.5rem;
+    }
+
+    .btn-voltar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .btn-voltar:hover { border-color: var(--primary); }
+
+    /* GRID DO PAINEL */
+    .admin-grid-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    @media(max-width: 900px) {
+      .admin-grid-layout { grid-template-columns: 1fr; }
+    }
+
+    .admin-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      padding: 25px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+    }
+    .admin-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px;
+      background: var(--bg-deep);
+      border: 1px solid var(--border-color);
+      color: white;
+      border-radius: 10px;
+      font-size: 0.95px;
+    }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
+
+    .btn-acao {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+    .btn-acao:hover { background: var(--primary-hover); }
+
+    .item-linha-admin {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .stat-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 18px;
+      border-radius: 14px;
+      text-align: center;
+    }
+    .stat-box h4 { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
+    .stat-box span { font-size: 1.3rem; font-weight: bold; color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    <div class="admin-topbar">
+      <div>
+        <h1>🛠️ Painel Exclusivo do Gestor</h1>
+        <p style="color:var(--text-muted); font-size:0.85rem;">Controle total de produtos, estoque e métricas da loja.</p>
+      </div>
+      <a href="index.html" class="btn-voltar">← Voltar para a Loja</a>
+    </div>
+
+    <!-- MÉTRICAS -->
+    <div class="stats-grid">
+      <div class="stat-box">
+        <h4>Faturamento Total</h4>
+        <span id="stat-faturamento">R$ 0,00</span>
+      </div>
+      <div class="stat-box">
+        <h4>Pedidos Registrados</h4>
+        <span id="stat-pedidos">0</span>
+      </div>
+    </div>
+
+    <div class="admin-grid-layout">
+      <!-- COLUNA 1: CADASTRO E CONFIGURAÇÕES -->
+      <div>
+        <div class="admin-card">
+          <h3>➕ Cadastrar Novo Produto</h3>
+          <form id="form-novo-produto" onsubmit="cadastrarProduto(event)">
+            <div class="form-group">
+              <label>Nome do Produto</label>
+              <input type="text" id="novo-nome" placeholder="Ex: Coxinha de Frango com Catupiry" required>
+            </div>
+            <div class="form-group">
+              <label>Preço (R$)</label>
+              <input type="number" id="novo-preco" step="0.01" placeholder="8.50" required>
+            </div>
+            <div class="form-group">
+              <label>Categoria</label>
+              <select id="novo-categoria">
+                <option value="Salgados">Salgados</option>
+                <option value="Combos">Combos</option>
+                <option value="Bebidas">Bebidas</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Descrição Curta</label>
+              <input type="text" id="novo-descricao" placeholder="Massa sequinha recheada..." required>
+            </div>
+            <div class="form-group">
+              <label>Link da Imagem (URL)</label>
+              <input type="text" id="novo-imagem" placeholder="https://..." required>
+            </div>
+            <button type="submit" class="btn-acao">Salvar e Publicar Produto</button>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <h3>⚙️ Configurações e Ações Globais</h3>
+          <button onclick="zerarMetricas()" style="background:var(--bg-card); border:1px solid var(--border-color); color:var(--text-main); padding:12px; border-radius:10px; width:100%; cursor:pointer; font-weight:600; margin-bottom:10px;">Zerar Estatísticas de Vendas</button>
+          <button onclick="restaurarPadrao()" style="background:var(--bg-card); border:1px solid var(--border-color); color:var(--text-main); padding:12px; border-radius:10px; width:100%; cursor:pointer; font-weight:600;">Restaurar Cardápio Padrão</button>
+        </div>
+      </div>
+
+      <!-- COLUNA 2: LISTAGEM E ESTOQUE -->
+      <div>
+        <div class="admin-card" style="height: 100%;">
+          <h3>📦 Gerenciamento de Estoque e Produtos</h3>
+          <div id="lista-admin-produtos" style="max-height: 520px; overflow-y: auto; padding-right: 5px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let produtos = JSON.parse(localStorage.getItem("meus_produtos")) || [
+      { id: 1, nome: "Coxinha Tradicional de Frango", preco: 7.50, categoria: "Salgados", descricao: "Massa super crocante temperada com caldo de galinha e recheio suculento.", imagem: "https://images.pexels.com/photos/13938550/pexels-photo-13938550.jpeg?auto=compress&cs=tinysrgb&w=300", estoque: true },
+      { id: 2, nome: "Coxinha com Requeijão Cremoso", preco: 8.50, categoria: "Salgados", descricao: "Nossa clássica de frango generosamente recheada com requeijão autêntico.", imagem: "https://images.pexels.com/photos/13938550/pexels-photo-13938550.jpeg?auto=compress&cs=tinysrgb&w=300", estoque: true },
+      { id: 3, nome: "Combo Família (10 Coxinhas + Refri)", preco: 45.00, categoria: "Combos", descricao: "Perfeito para reunir a galera em casa com muita economia.", imagem: "https://images.pexels.com/photos/13938550/pexels-photo-13938550.jpeg?auto=compress&cs=tinysrgb&w=300", estoque: true },
+      { id: 4, nome: "Coca-Cola Lata 350ml", preco: 6.00, categoria: "Bebidas", descricao: "Trincando de gelada para acompanhar seus salgados favoritos.", imagem: "https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-50593.jpeg?auto=compress&cs=tinysrgb&w=300", estoque: true }
+    ];
+
+    let faturamentoTotal = parseFloat(localStorage.getItem("fat_total")) || 0;
+    let pedidosQtd = parseInt(localStorage.getItem("ped_qtd")) || 0;
+
+    window.onload = function() {
+      atualizarEstatisticas();
+      carregarListaAdmin();
+    };
+
+    function atualizarEstatisticas() {
+      document.getElementById("stat-faturamento").innerText = `R$ ${faturamentoTotal.toFixed(2)}`;
+      document.getElementById("stat-pedidos").innerText = pedidosQtd;
+    }
+
+    function cadastrarProduto(e) {
+      e.preventDefault();
+      const nome = document.getElementById("novo-nome").value;
+      const preco = parseFloat(document.getElementById("novo-preco").value);
+      const categoria = document.getElementById("novo-categoria").value;
+      const descricao = document.getElementById("novo-descricao").value;
+      const imagem = document.getElementById("novo-imagem").value;
+
+      const novo = { id: Date.now(), nome, preco, categoria, descricao, imagem, estoque: true };
+      produtos.push(novo);
+      salvarEAtualizar();
+      document.getElementById("form-novo-produto").reset();
+      alert("Produto cadastrado com sucesso!");
+    }
+
+    function carregarListaAdmin() {
+      const container = document.getElementById("lista-admin-produtos");
+      container.innerHTML = "";
+
+      if (produtos.length === 0) {
+        container.innerHTML = "<p style='color:var(--text-muted); text-align:center; padding:20px;'>Nenhum produto cadastrado.</p>";
+        return;
+      }
+
+      produtos.forEach((prod, index) => {
+        let statusEstoque = prod.estoque ? `<span style="color:var(--success);">Disponível</span>` : `<span style="color:var(--primary);">Esgotado</span>`;
+        
+        container.innerHTML += `
+          <div class="item-linha-admin">
+            <div>
+              <strong>${prod.nome}</strong><br>
+              <span style="color:var(--accent); font-size:0.85rem;">R$ ${prod.preco.toFixed(2)}</span> • ${statusEstoque}
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button onclick="alternarEstoque(${prod.id})" style="background:var(--info); color:white; border:none; padding:6px 10px; border-radius:6px; cursor:pointer; font-size:0.8rem;">Estoque</button>
+              <button onclick="deletarProduto(${prod.id})" style="background:var(--primary); color:white; border:none; padding:6px 10px; border-radius:6px; cursor:pointer; font-size:0.8rem;">Excluir</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function alternarEstoque(id) {
+      const p = produtos.find(item => item.id === id);
+      if (p) {
+        p.estoque = !p.estoque;
+        salvarEAtualizar();
+      }
+    }
+
+    function deletarProduto(id) {
+      if (confirm("Deseja realmente excluir este produto?")) {
+        produtos = produtos.filter(item => item.id !== id);
+        salvarEAtualizar();
+      }
+    }
+
+    function salvarEAtualizar() {
+      localStorage.setItem("meus_produtos", JSON.stringify(produtos));
+      carregarListaAdmin();
+    }
+
+    function zerarMetricas() {
+      if (confirm("Tem certeza que deseja zerar o faturamento e contagem de pedidos?")) {
+        faturamentoTotal = 0;
+        pedidosQtd = 0;
+        localStorage.setItem("fat_total", 0);
+        localStorage.setItem("ped_qtd", 0);
+        atualizarEstatisticas();
+        alert("Estatísticas zeradas com sucesso!");
+      }
+    }
+
+    function restaurarPadrao() {
+      if (confirm("Deseja restaurar o cardápio padrão de fábrica?")) {
+        localStorage.removeItem("meus_produtos");
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>
